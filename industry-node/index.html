@@ -1,0 +1,39 @@
+<html>
+
+<head></head>
+
+<body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.9.0/dist/progressbar.js"></script>
+
+  <div id="analog"></div>
+  <br>
+  <div id="digital"></div>
+  <br>
+  <div id="example-percent-container" style="width: 15%"></div>
+
+  <script type="text/javascript">
+    var socket = io();
+    var graph = 0;
+    socket.on('analog_message', function(msg) {
+      console.log(msg);
+      graph = msg[0];
+      circle.animate(graph / 100);
+      circle.setText(graph + "/100");
+      document.getElementById("analog").innerHTML = msg;
+    });
+    socket.on('digital_message', function(msg) {
+      console.log(msg);
+      document.getElementById("digital").innerHTML = msg;
+    });
+    var circle = new ProgressBar.Circle('#example-percent-container', {
+      color: '#FCB03C',
+      strokeWidth: 3,
+      trailWidth: 1,
+      duration: 500,
+    });
+  </script>
+
+</body>
+
+</html>
